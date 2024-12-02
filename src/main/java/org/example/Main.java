@@ -1,30 +1,25 @@
 package org.example;
 
-import Food.*;
-import Animals.*;
+import org.example.sort_files.sorts.Sort;
+import org.example.sort_files.sorts.BubbleSort;
+import org.example.sort_files.sorts.CollectionsSort;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
-
   public static void main(String[] args) {
-    Eagle eagle = new Eagle();
-    eagle.eats(new Grass());
-    eagle.eats(new Meat());
-    eagle.flies();
-    Camel camel = new Camel();
-    camel.eats(new Grass());
-    camel.eats(new Meat());
-    camel.walks();
-    Dolphin dolphin = new Dolphin();
-    dolphin.eats(new Grass());
-    dolphin.eats(new Fish());
-    dolphin.swims();
-    Horse horse = new Horse();
-    horse.eats(new Grass());
-    horse.eats(new Meat());
-    horse.walks();
-    Tiger tiger = new Tiger();
-    tiger.eats(new Grass());
-    tiger.eats(new Meat());
-    tiger.walks();
+    Scanner input = new Scanner(System.in);
+    int n = input.nextInt();
+    int[] arr = new int[n];
+    for (int i = 0; i < n; i++) {
+      arr[i] = input.nextInt();
+    }
+    Sort sort1 = new Sort(arr, "BUBBLE");
+    Sort sort2 = new Sort(arr, "COLLECTIONS");
+    Sort sort3 = new Sort(arr, "QUICK");
+    sort1.print();
+    sort2.print();
   }
 }
