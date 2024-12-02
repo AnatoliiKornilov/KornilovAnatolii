@@ -1,4 +1,4 @@
-package org.example.sort_files.sorts;
+package org.example.sorts;
 
 import java.util.ArrayList;
 import java.util.Arrays;

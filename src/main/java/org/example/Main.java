@@ -1,11 +1,7 @@
 package org.example;
 
-import org.example.sort_files.sorts.Sort;
-import org.example.sort_files.sorts.BubbleSort;
-import org.example.sort_files.sorts.CollectionsSort;
+import org.example.sorts.Sort;
 
-import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {

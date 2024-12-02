@@ -1,18 +1,15 @@
 package org.example;
 
 import java.util.ArrayList;
-import org.example.sort_files.sorts.BubbleSort;
-import org.example.sort_files.sorts.Sort;
-import org.testng.annotations.Test;
-
-import java.util.ArrayList;
+import org.example.sorts.Sort;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BubbleSortTest {
   @Test
   void sort() throws Exception {
-    int[] arr1 = new int[]{1, 9, 5, 7, 2, 10, 8, 4, 7, 3, 6};
+    int[] arr1 = new int[]{1, 9, 5, 7, 2, 10, 8, 4, 3, 6};
     int[] arr2 = new int[]{1, 1, 1};
     int[] arr3 = new int[]{2};
     int[] arr4 = new int[]{};
@@ -34,9 +31,9 @@ public class BubbleSortTest {
     Sort sort2 = new Sort(arr2, "BUBBLE");
     Sort sort3 = new Sort(arr3, "BUBBLE");
     Sort sort4 = new Sort(arr4, "BUBBLE");
-    assertEquals(arr1_ans, sort1);
-    assertEquals(arr2_ans, sort2);
-    assertEquals(arr3_ans, sort3);
-    assertEquals(arr4_ans, sort4);
+    assertEquals(arr1_ans, sort1.ans);
+    assertEquals(arr2_ans, sort2.ans);
+    assertEquals(arr3_ans, sort3.ans);
+    assertEquals(arr4_ans, sort4.ans);
   }
 }
