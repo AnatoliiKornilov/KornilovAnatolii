@@ -1,21 +1,29 @@
 package org.example;
 
-import org.example.sorts.Sort;
-
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
   public static void main(String[] args) {
-    Scanner input = new Scanner(System.in);
-    int n = input.nextInt();
-    int[] arr = new int[n];
-    for (int i = 0; i < n; i++) {
-      arr[i] = input.nextInt();
-    }
-    Sort sort1 = new Sort(arr, "BUBBLE");
-    Sort sort2 = new Sort(arr, "COLLECTIONS");
-    Sort sort3 = new Sort(arr, "QUICK");
-    sort1.print();
-    sort2.print();
+    AllUsersList allUsersList = new AllUsersList();
+    EnrichmentService enrichmentService = new EnrichmentService(List.of(new EnrichByMsisdn()));
+    Message message =
+        new Message( new HashMap(Map.of(
+                    "action",
+                    "button_click",
+                    "page",
+                    "book_card",
+                    "msisdn",
+                    "88005553535")),
+            Message.EnrichmentType.MSISDN);
+    allUsersList.addUser(new User(message.content));
+    System.out.println(AllUsersList.allUsersList.get(0).info);
+    enrichmentService.enrich(message);
+    System.out.println(message.content);
+    allUsersList.updateUserByMsisdn(message.content.get("msisdn"), allUsersList.findByMsisdn(message.content.get("msisdn")));
+    System.out.println(AllUsersList.allUsersList.get(0).info);
+    Message message2 = new Message(null, null);
+    allUsersList.addUser(new User(message2.content));
   }
 }
