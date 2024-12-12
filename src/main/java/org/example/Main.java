@@ -1,29 +1,58 @@
 package org.example;
 
-import java.util.HashMap;
+import org.example.controller.article.ArticleController;
+import org.example.controller.article.ArticleFreeMarkerController;
+import org.example.controller.comment.CommentController;
+import org.example.repository.article.ArticleRepository;
+import org.example.repository.article.InMemoryArticleRepository;
+import org.example.repository.comment.CommentRepository;
+import org.example.repository.comment.InMemoryCommentRepository;
+import org.example.service.article.ArticleService;
+import org.example.service.comment.CommentService;
+import spark.Request;
+import spark.Response;
+import spark.Service;
+import spark.Spark;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
-import java.util.Map;
 
 public class Main {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+
   public static void main(String[] args) {
-    AllUsersList allUsersList = new AllUsersList();
-    EnrichmentService enrichmentService = new EnrichmentService(List.of(new EnrichByMsisdn()));
-    Message message =
-        new Message( new HashMap(Map.of(
-                    "action",
-                    "button_click",
-                    "page",
-                    "book_card",
-                    "msisdn",
-                    "88005553535")),
-            Message.EnrichmentType.MSISDN);
-    allUsersList.addUser(new User(message.content));
-    System.out.println(AllUsersList.allUsersList.get(0).info);
-    enrichmentService.enrich(message);
-    System.out.println(message.content);
-    allUsersList.updateUserByMsisdn(message.content.get("msisdn"), allUsersList.findByMsisdn(message.content.get("msisdn")));
-    System.out.println(AllUsersList.allUsersList.get(0).info);
-    Message message2 = new Message(null, null);
-    allUsersList.addUser(new User(message2.content));
+    Service service = Service.ignite();
+    ObjectMapper objectMapper = new ObjectMapper();
+    ArticleRepository articles = new InMemoryArticleRepository();
+    CommentRepository comments = new InMemoryCommentRepository();
+    FreeMarkerEngine freeMarkerEngine = TemplateFactory.freeMarkerEngine();
+
+    Application app =
+        new Application(
+            List.of(
+                new ArticleController(
+                    service,
+                    new ArticleService(articles, comments),
+                    new CommentService(articles, comments),
+                    objectMapper
+                ),
+                new CommentController(
+                    service,
+                    new CommentService(articles, comments),
+                    objectMapper
+                ),
+                new ArticleFreeMarkerController(
+                    service,
+                    new ArticleService(articles, comments),
+                    new CommentService(articles, comments),
+                    freeMarkerEngine
+                )
+            )
+        );
+    app.start();
   }
 }
